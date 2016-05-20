@@ -1,0 +1,9 @@
+[Unit]
+Description=pi fan controller daemon
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/pi-fan-controller
+
+[Install]
+WantedBy=multiuser.agent

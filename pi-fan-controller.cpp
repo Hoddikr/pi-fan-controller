@@ -47,7 +47,7 @@ int _temp4 = 70;
 int _temp5 = 75;
 
 // How often (in seconds) to check for cpu temp
-int _checkInterval = 60;
+int _checkInterval = 5;
 
 int _logLevel = LOG_NOTICE;
 
@@ -55,6 +55,9 @@ int _stopWaitTime = 120;
 steady_clock::time_point _stopWaitTimeStart;
 
 int _currentState = FAN_STOPPED;
+
+// By default we assume that this will be a systemd daemon
+bool _upstartMode = false;
 
 // Initializes the daemon settings based on the startup parameters given
 void init(int argc, char *argv[])
@@ -118,6 +121,10 @@ void init(int argc, char *argv[])
 				{
 					_logLevel = LOG_NOTICE;
 				}
+			}
+			else if (std::string(argv[i]) == "-upstart")
+			{
+				_upstartMode = true;
 			}
 		}
 	}	
@@ -276,33 +283,36 @@ int main(int argc, char *argv[])
     openlog(DAEMON_NAME, LOG_CONS | LOG_NDELAY | LOG_PERROR | LOG_PID, LOG_USER);
 
     syslog(LOG_INFO, "Entering Daemon");
+	
+	if(_upstartMode)
+	{
+		pid_t pid, sid;
 
-    pid_t pid, sid;
+	   //Fork the Parent Process
+		pid = fork();
 
-   //Fork the Parent Process
-    pid = fork();
+		if (pid < 0) { exit(EXIT_FAILURE); }
 
-    if (pid < 0) { exit(EXIT_FAILURE); }
+		//We got a good pid, Close the Parent Process
+		if (pid > 0) { exit(EXIT_SUCCESS); }
 
-    //We got a good pid, Close the Parent Process
-    if (pid > 0) { exit(EXIT_SUCCESS); }
+		//Change File Mask
+		umask(0);
 
-    //Change File Mask
-    umask(0);
+		//Create a new Signature Id for our child
+		sid = setsid();
+		if (sid < 0) { exit(EXIT_FAILURE); }
 
-    //Create a new Signature Id for our child
-    sid = setsid();
-    if (sid < 0) { exit(EXIT_FAILURE); }
+		//Change Directory
+		//If we cant find the directory we exit with failure.
+		if ((chdir("/")) < 0) { exit(EXIT_FAILURE); }
 
-    //Change Directory
-    //If we cant find the directory we exit with failure.
-    if ((chdir("/")) < 0) { exit(EXIT_FAILURE); }
-
-    //Close Standard File Descriptors
-    close(STDIN_FILENO);
-    close(STDOUT_FILENO);
-    close(STDERR_FILENO);
-
+		//Close Standard File Descriptors
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
+		close(STDERR_FILENO);
+	}
+	
     //----------------
     //Main Process
     //----------------

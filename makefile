@@ -9,5 +9,10 @@ all:
 	g++ -std=c++11 $(INCLUDE) $(LIBFOLDER) $(LIBS) $(SRC) -o $(EXENAME)
 
 install:
-	cp ./pi-fan-controller /usr/sbin -f
+	cp ./pi-fan-controller /usr/bin -f
 	cp ./upstart/pi-fan-controller.conf /etc/init -f
+
+install.systemd:
+	cp ./pi-fan-controller /usr/bin -f
+	cp ./systemd/pi-fan-controller.service /etc/systemd/system -f
+	
