@@ -15,4 +15,4 @@ install:
 install.systemd:
 	cp ./pi-fan-controller /usr/bin -f
 	cp ./systemd/pi-fan-controller.service /etc/systemd/system -f
-	
+	cp ./systemd/pi-fan-controller.env /etc -f
