@@ -8,7 +8,7 @@ EXENAME = pi-fan-controller
 all: 
 	g++ -std=c++11 $(INCLUDE) $(LIBFOLDER) $(LIBS) $(SRC) -o $(EXENAME)
 
-install:
+install.upstart:
 	cp ./pi-fan-controller /usr/bin -f
 	cp ./upstart/pi-fan-controller.conf /etc/init -f
 
