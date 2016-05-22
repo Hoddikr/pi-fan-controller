@@ -10,19 +10,29 @@ and the whole process can be seen here on his blog here:
 ========================
 Building and installing
 ========================
-Clone the repo and run:
-1. make
-2. sudo make install
+1. Clone the repo and run:
+make
 
-This compiles and copies the executable and config files. This daemon is managed via upstart so the configuration
-file drops into /etc/init.
+2. For distros with upstart:
+sudo make install.upstart
+
+3. For distros with systemd:
+sudo make install.systemd
+
+This compiles and copies the executable and config files for the appropriate init system.
+
+For upstart the config file goes here:
+/etc/init/pi-fan-controller.conf
+
+For systemd the unit- and environment file:
+/etc/systemd/system/pi-fan-controller.service
+/etc/pi-fan-controller.env
+
 
 ========================
 Configuring and starting
 ========================
-The configuration file is pretty self-explanatory and is located here at /etc/init/pi-fan-controller.conf.
-
-You can configure the following parameters:
+You can configure the following parameters in upstart/systemd files:
 * The cpu temperature levels at which to start the fan and increase the fan speed.
 * The interval in seconds to check the cpu temperature.
 * The log level. This daemon logs into /var/log/syslog
