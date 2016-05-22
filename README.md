@@ -45,4 +45,4 @@ You can configure the following parameters in upstart/systemd files:
 * The cpu temperature levels at which to start the fan and increase the fan speed.
 * The interval in seconds to check the cpu temperature.
 * The log level. This daemon logs into /var/log/syslog
-* The time in seconds the fan should keep spinning after the lowest target temperature
+* The time in seconds the fan should keep spinning after the cpu temperature drops below the lowest temperature level
