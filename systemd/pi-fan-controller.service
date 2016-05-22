@@ -4,7 +4,7 @@ Description=pi fan controller daemon
 [Service]
 Type=simple
 EnvironmentFile=/etc/pi-fan-controller.env
-ExecStart=/usr/bin/pi-fan-controller -i $INTERVAL -p1 $PIN1 -p2 $PIN2 -p3 $PIN3 -l $LOGLEVEL -st $STOPWAITTIME
+ExecStart=/usr/bin/pi-fan-controller -i $INTERVAL -p1 $PIN1 -p2 $PIN2 -p3 $PIN3 -l $LOGLEVEL -st $STOPWAITTIME -t1 $TEMP1 -t2 $TEMP2 -t3 $TEMP3 -t4 $TEMP4 -t5 $TEMP5
 
 [Install]
 WantedBy=multiuser.agent
