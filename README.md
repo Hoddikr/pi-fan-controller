@@ -7,6 +7,8 @@ and the whole process can be seen here on his blog here:
 
 <INSERT BLOG LINK>
 
+**NOTE:** You'll need to put the circuit board together as described on in the Einhugur blog post for this to work.
+
 ========================
 Building and installing
 ========================
