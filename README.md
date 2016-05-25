@@ -10,6 +10,13 @@ and the whole process can be seen here on his blog here:
 **NOTE:** You'll need to put the circuit board together as described in the Einhugur blog post for this to work.
 
 ========================
+Dependencies
+========================
+This daemon depends on WiringOP being installed. You can get it from here:
+
+https://github.com/zhaolei/WiringOP
+
+========================
 Building and installing
 ========================
 1. Clone the repo and run:
