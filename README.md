@@ -7,27 +7,45 @@ and the whole process can be seen here on his blog here:
 
 <INSERT BLOG LINK>
 
+**NOTE:** You'll need to put the circuit board together as described in the Einhugur blog post for this to work.
+
+========================
+Dependencies
+========================
+This daemon depends on WiringOP being installed. You can get it from here:
+
+https://github.com/zhaolei/WiringOP
+
 ========================
 Building and installing
 ========================
 1. Clone the repo and run:
+```
 make
+```
 
 2. For distros with upstart:
+```
 sudo make install.upstart
+```
 
 3. For distros with systemd:
+```
 sudo make install.systemd
+```
 
 This compiles and copies the executable and config files for the appropriate init system.
 
 For upstart the config file goes here:
+```
 /etc/init/pi-fan-controller.conf
+```
 
 For systemd the unit- and environment file:
+```
 /etc/systemd/system/pi-fan-controller.service
 /etc/pi-fan-controller.env
-
+```
 
 ========================
 Configuring and starting
@@ -36,4 +54,11 @@ You can configure the following parameters in upstart/systemd files:
 * The cpu temperature levels at which to start the fan and increase the fan speed.
 * The interval in seconds to check the cpu temperature.
 * The log level. This daemon logs into /var/log/syslog
-* The time in seconds the fan should keep spinning after the lowest target temperature
+* The time in seconds the fan should keep spinning after the cpu temperature drops below the lowest temperature level
+
+To start the daemon via systemd:
+```
+sudo systemctl enable pi-fan-controller.service
+sudo systemctl daemon-reload
+sudo systemctl restart pi-fan-controller.service
+```
