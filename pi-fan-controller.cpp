@@ -59,6 +59,10 @@ int _currentState = FAN_STOPPED;
 // By default we assume that this will be a systemd daemon
 bool _upstartMode = false;
 
+// Indicates wether this program should only stop the fans. This needs to be set with the -stopfan flag
+// at startup which will stop the fan based on the given GPIO pin numbers
+bool _stopFanOnly = false;
+
 // Initializes the daemon settings based on the startup parameters given
 void init(int argc, char *argv[])
 {
@@ -108,7 +112,11 @@ void init(int argc, char *argv[])
 			else if (std::string(argv[i]) == "-st")
 			{			
 				_stopWaitTime = atoi(argv[i + 1]);
-			}			
+			}		
+			else if (std::string(argv[i]) == "-stopfan")
+			{			
+				_stopFanOnly = true;
+			}				
 			else if (std::string(argv[i]) == "-l")
 			{				
 				int logLevel = atoi(argv[i + 1]);
@@ -281,10 +289,10 @@ int main(int argc, char *argv[])
     //Set our Logging Mask and open the Log    
 	setlogmask(LOG_UPTO(_logLevel));
     openlog(DAEMON_NAME, LOG_CONS | LOG_NDELAY | LOG_PERROR | LOG_PID, LOG_USER);
-
-    syslog(LOG_INFO, "Entering Daemon");
 	
-	if(_upstartMode)
+    syslog(LOG_INFO, _stopFanOnly ? "Shutting down the fan only" : "Entering Daemon");
+	
+	if(_upstartMode && !_stopFanOnly)
 	{
 		pid_t pid, sid;
 
@@ -326,12 +334,14 @@ int main(int argc, char *argv[])
 	// This will shut down the fan
 	togglePinState(_currentState);
 
-    while(true)
+	if (!_stopFanOnly)
 	{
-        process();
-        sleep(_checkInterval);
-    }
-
+		while(true)
+		{
+			process();
+			sleep(_checkInterval);
+		}
+	}
     //Close the log
     closelog ();
 }
