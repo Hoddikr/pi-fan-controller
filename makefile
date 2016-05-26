@@ -10,8 +10,7 @@ all:
 
 install.upstart:
 	cp ./pi-fan-controller /usr/bin -f
-	cp ./upstart/pi-fan-controller.conf /etc/init -f
-	initctl stop pi-fan-controller
+	cp ./upstart/pi-fan-controller.conf /etc/init -f	
 	initctl start pi-fan-controller
 	
 uninstall.upstart:
