@@ -16,10 +16,14 @@ install.systemd:
 	cp ./pi-fan-controller /usr/bin -f
 	cp ./systemd/pi-fan-controller.service /etc/systemd/system -f
 	cp ./systemd/pi-fan-controller.env /etc -f
+	systemctl enable pi-fan-controller.service
+	systemctl daemon-reload
+	systemctl restart pi-fan-controller.service
 	
 uninstall.systemd:
 	systemctl stop pi-fan-controller.service
 	systemctl disable pi-fan-controller.service
 	rm /etc/systemd/system/pi-fan-controller.service
+	rm /etc/pi-fan-controller.env
 	systemctl daemon-reload
 	systemctl reset-failed
