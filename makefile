@@ -20,7 +20,6 @@ install.systemd:
 uninstall.systemd:
 	systemctl stop pi-fan-controller.service
 	systemctl disable pi-fan-controller.service
-	systemctl rm /etc/systemd/system/pi-fan-controller.service
-	systemctl rm /etc/systemd/system/multi-user.target.wants/pi-fan-controller.service
+	rm /etc/systemd/system/pi-fan-controller.service
 	systemctl daemon-reload
 	systemctl reset-failed
