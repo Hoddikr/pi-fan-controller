@@ -11,6 +11,13 @@ all:
 install.upstart:
 	cp ./pi-fan-controller /usr/bin -f
 	cp ./upstart/pi-fan-controller.conf /etc/init -f
+	initctl stop pi-fan-controller
+	initctl start pi-fan-controller
+	
+uninstall.upstart:
+	initctl stop pi-fan-controller
+	rm /etc/init/pi-fan-controller.conf
+	rm /usr/bin/pi-fan-controller
 
 install.systemd:
 	cp ./pi-fan-controller /usr/bin -f
@@ -25,5 +32,6 @@ uninstall.systemd:
 	systemctl disable pi-fan-controller.service
 	rm /etc/systemd/system/pi-fan-controller.service
 	rm /etc/pi-fan-controller.env
+	rm /usr/bin/pi-fan-controller
 	systemctl daemon-reload
 	systemctl reset-failed
