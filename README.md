@@ -34,7 +34,7 @@ sudo make install.upstart
 sudo make install.systemd
 ```
 
-This compiles and copies the executable and config files for the appropriate init system. For systemd this also enables and starts the daemon.
+This compiles and copies the executable and config files for the appropriate init system. This also enables and starts the daemon for both upstart and systemd.
 
 For upstart the config file goes here:
 ```
@@ -50,7 +50,17 @@ For systemd the unit- and environment file:
 ========================
 Configuring and starting
 ========================
-For systemd the daemon is started for you when you run the install.sytemd target.
+For both upstart and systemd the daemon is started when you run the install.upstart/install.systemd targets. 
+
+For upstart, edit this file:
+```
+/etc/init/pi-fan-controller.conf
+```
+
+For systemd, edit this file:
+```
+/etc/pi-fan-controller.env
+```
 
 You can configure the following parameters in upstart/systemd files:
 * The cpu temperature levels at which to start the fan and increase the fan speed.
@@ -61,7 +71,14 @@ You can configure the following parameters in upstart/systemd files:
 ========================
 Uninstalling
 ========================
-For systemd you can run the following command to stop and uninstall the daemon:
+The makefile has uninstall targets for both upstart and systemd. Bot targets stop the daemons and remove the associated files (binaries and config files).
+
+For upstart:
+```
+sudo make uninstall.upstart
+```
+
+For systemd:
 ```
 sudo make uninstall.systemd
 ```
