@@ -55,3 +55,10 @@ You can configure the following parameters in upstart/systemd files:
 * The interval in seconds to check the cpu temperature.
 * The log level. This daemon logs into /var/log/syslog
 * The time in seconds the fan should keep spinning after the cpu temperature drops below the lowest temperature level
+
+To start the daemon via systemd:
+```
+sudo systemctl enable pi-fan-controller.service
+sudo systemctl daemon-reload
+sudo systemctl restart pi-fan-controller.service
+```
