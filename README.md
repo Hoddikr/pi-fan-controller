@@ -34,7 +34,7 @@ sudo make install.upstart
 sudo make install.systemd
 ```
 
-This compiles and copies the executable and config files for the appropriate init system.
+This compiles and copies the executable and config files for the appropriate init system. For systemd this also enables and starts the daemon.
 
 For upstart the config file goes here:
 ```
@@ -50,15 +50,18 @@ For systemd the unit- and environment file:
 ========================
 Configuring and starting
 ========================
+For systemd the daemon is started for you when you run the install.sytemd target.
+
 You can configure the following parameters in upstart/systemd files:
 * The cpu temperature levels at which to start the fan and increase the fan speed.
 * The interval in seconds to check the cpu temperature.
 * The log level. This daemon logs into /var/log/syslog
 * The time in seconds the fan should keep spinning after the cpu temperature drops below the lowest temperature level
 
-To start the daemon via systemd:
+========================
+Uninstalling
+========================
+For systemd you can run the following command to stop and uninstall the daemon:
 ```
-sudo systemctl enable pi-fan-controller.service
-sudo systemctl daemon-reload
-sudo systemctl restart pi-fan-controller.service
+sudo make uninstall.systemd
 ```
