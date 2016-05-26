@@ -18,7 +18,7 @@ install.systemd:
 	cp ./systemd/pi-fan-controller.env /etc -f
 	
 uninstall.systemd:
-	systemctl stop pi-fan-controlle.service
+	systemctl stop pi-fan-controller.service
 	systemctl disable pi-fan-controller.service
 	systemctl rm /etc/systemd/system/pi-fan-controller.service
 	systemctl rm /etc/systemd/system/multi-user.target.wants/pi-fan-controller.service
