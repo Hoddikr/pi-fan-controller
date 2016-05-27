@@ -56,9 +56,6 @@ steady_clock::time_point _stopWaitTimeStart;
 
 int _currentState = FAN_STOPPED;
 
-// By default we assume that this will be a systemd daemon
-bool _upstartMode = false;
-
 // Indicates wether this program should only stop the fans. This needs to be set with the -stopfan flag
 // at startup which will stop the fan based on the given GPIO pin numbers
 bool _stopFanOnly = false;
@@ -129,10 +126,6 @@ void init(int argc, char *argv[])
 				{
 					_logLevel = LOG_NOTICE;
 				}
-			}
-			else if (std::string(argv[i]) == "-upstart")
-			{
-				_upstartMode = true;
 			}
 		}
 	}	
@@ -291,35 +284,6 @@ int main(int argc, char *argv[])
     openlog(DAEMON_NAME, LOG_CONS | LOG_NDELAY | LOG_PERROR | LOG_PID, LOG_USER);
 	
     syslog(LOG_INFO, _stopFanOnly ? "Shutting down the fan only" : "Entering Daemon");
-	
-	if(_upstartMode && !_stopFanOnly)
-	{
-		pid_t pid, sid;
-
-	   //Fork the Parent Process
-		pid = fork();
-
-		if (pid < 0) { exit(EXIT_FAILURE); }
-
-		//We got a good pid, Close the Parent Process
-		if (pid > 0) { exit(EXIT_SUCCESS); }
-
-		//Change File Mask
-		umask(0);
-
-		//Create a new Signature Id for our child
-		sid = setsid();
-		if (sid < 0) { exit(EXIT_FAILURE); }
-
-		//Change Directory
-		//If we cant find the directory we exit with failure.
-		if ((chdir("/")) < 0) { exit(EXIT_FAILURE); }
-
-		//Close Standard File Descriptors
-		close(STDIN_FILENO);
-		close(STDOUT_FILENO);
-		close(STDERR_FILENO);
-	}
 	
     //----------------
     //Main Process
