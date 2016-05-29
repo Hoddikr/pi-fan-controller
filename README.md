@@ -5,7 +5,7 @@ This daemon controls a 5v fan based on the current cpu temperature. This was dev
 running Armbian Debian GNU/Linux 8 (jessie). The daemon controls the fan speed via a circuit design by Björn
 and the whole process can be seen here on his blog here:
 
-<INSERT BLOG LINK>
+https://einhugur.com/blog/index.php/big-projects/build-fan-controller-for-orange-pi-pc/
 
 **NOTE:** You'll need to put the circuit board together as described in the Einhugur blog post for this to work.
 
