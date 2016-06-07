@@ -224,7 +224,7 @@ void process()
 {
 
 	//syslog (LOG_DEBUG, ("CPU temp: " + exec("cat /sys/class/thermal/thermal_zone0/temp")).c_str());
-	syslog (LOG_DEBUG, ("CPU temp: " + getCPUTemp());
+	syslog (LOG_DEBUG, ("CPU temp: " + getCPUTemp()));
 	
 	int curTemp = getCPUTemp();
 
