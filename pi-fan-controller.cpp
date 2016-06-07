@@ -202,32 +202,14 @@ std::string exec(const char* cmd)
     return result;
 }
 
-int getCPUTemp()
-{
-	FILE *temperatureFile;
-	double T;
-	temperatureFile = fopen ("/sys/class/thermal/thermal_zone0/temp", "r");
-	
-	if (temperatureFile == NULL)
-	{
-		syslog(LOG_PERROR, "Could not read /sys/class/thermal/thermal_zone0/temp");
-		return 0;
-	}
-	
-	fscanf (temperatureFile, "%lf", &T);
-	fclose (temperatureFile);
-	
-	return (int)T;
-}
-
 //
 void process()
 {
 
-	//syslog (LOG_DEBUG, ("CPU temp: " + exec("cat /sys/class/thermal/thermal_zone0/temp")).c_str());
-	syslog (LOG_DEBUG, "CPU temp: " + getCPUTemp());
-	
-	int curTemp = getCPUTemp();
+	syslog (LOG_DEBUG, ("CPU temp: " + exec("cat /sys/class/thermal/thermal_zone0/temp")).c_str());
+
+	const char* tempString = exec("cat /sys/class/thermal/thermal_zone0/temp").c_str();
+	int curTemp = atoi(tempString);
 
 	int nextState = _currentState;
 
