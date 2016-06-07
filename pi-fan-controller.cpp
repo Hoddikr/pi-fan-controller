@@ -210,7 +210,8 @@ int getCPUTemp()
 	
 	if (temperatureFile == NULL)
 	{
-		return curTemp; //print some message
+		syslog(LOG_PERROR, "Could not read /sys/class/thermal/thermal_zone0/temp");
+		return 0;
 	}
 	
 	fscanf (temperatureFile, "%lf", &T);
@@ -224,7 +225,7 @@ void process()
 {
 
 	//syslog (LOG_DEBUG, ("CPU temp: " + exec("cat /sys/class/thermal/thermal_zone0/temp")).c_str());
-	syslog (LOG_DEBUG, ("CPU temp: " + getCPUTemp()));
+	syslog (LOG_DEBUG, "CPU temp: " + getCPUTemp());
 	
 	int curTemp = getCPUTemp();
 
