@@ -9,16 +9,12 @@ https://einhugur.com/blog/index.php/big-projects/build-fan-controller-for-orange
 
 **NOTE:** You'll need to put the circuit board together as described in the Einhugur blog post for this to work.
 
-========================
-Dependencies
-========================
+## Dependencies
 This daemon depends on WiringOP being installed. You can get it from here:
 
 https://github.com/zhaolei/WiringOP
 
-========================
-Building and installing
-========================
+## Building and installing
 1. Clone the repo and run:
 ```
 make
@@ -47,9 +43,7 @@ For systemd the unit- and environment file:
 /etc/pi-fan-controller.env
 ```
 
-========================
-Configuring and starting
-========================
+## Configuring and starting
 For both upstart and systemd the daemon is started when you run the install.upstart/install.systemd targets. 
 
 For upstart, edit this file:
@@ -68,9 +62,7 @@ You can configure the following parameters in upstart/systemd files:
 * The log level. This daemon logs into /var/log/syslog
 * The time in seconds the fan should keep spinning after the cpu temperature drops below the lowest temperature level
 
-========================
-Uninstalling
-========================
+## Uninstalling
 The makefile has uninstall targets for both upstart and systemd. Bot targets stop the daemons and remove the associated files (binaries and config files).
 
 For upstart:
